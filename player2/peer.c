@@ -97,7 +97,7 @@ void *send_to_peer() {
         // printf("\nstart read msg from python process\n");
         // char* hello = read_msg_from_python_process();
         // printf("\n%s\n", hello);
-        char buffer[2000] = {0};
+        char buffer__[2000] = {0};
         int PORT_to_send; // port of peer of player 2
         printf("Enter the port to send message:");
         scanf("%d", &PORT_to_send);
@@ -119,10 +119,10 @@ void *send_to_peer() {
             exit(EXIT_FAILURE);
         }
         printf("\nconnect sucessfully, start reading msg from python process\n");
-        char* hello = read_msg_from_python_process();
+        char* buffer = read_msg_from_python_process();
 
-        sprintf(buffer, "%s[PORT:%d] says: %s", name, PORT, hello);
-        if(send(sock, buffer, sizeof(buffer), 0) == -1) {
+        // sprintf(buffer__, "%s[PORT:%d] says: %s", name, PORT, buffer);
+        if(send(sock, buffer, strlen(buffer) + 1, 0) == -1) {
             perror("sending failure");
             exit(EXIT_FAILURE);
         }
@@ -229,6 +229,8 @@ char *read_msg_from_python_process() {
 
     char* buffer = (char*)calloc(1024, 1);
     strncpy(buffer, msg.message_body, sizeof(msg.message_body));
+    remove_enter_in_buffer(buffer);
+    printf("\nlen: %d, msg from python: %s\n",strlen(buffer), buffer);
 
     return buffer;
 }

@@ -102,7 +102,8 @@ def run_game(character: Character, read_write: ReadWrite, screen, clock):
             
             if event.type == pg.MOUSEBUTTONDOWN:
                 character.set_target(pg.mouse.get_pos())
-                tar = f"x={character.target[0]} y={character.target[1]}"
+                tar = f"{character.target[0]} {character.target[1]}\n"
+                print(tar)
                 read_write.send_message(tar)
 
             if event.type==pg.KEYDOWN:

@@ -3,6 +3,7 @@ import sysv_ipc
 import sys
 import threading
 import os
+import re
 
 # Constants
 MAX = 100
@@ -32,15 +33,20 @@ class ReadWrite:
         temp_list = list(self.message)
         temp_list[0] = self.message[0].decode(sys.getdefaultencoding(), errors='ignore')
         temp_list[0] = temp_list[0].split('\n')[0]
+        temp_list[0] = temp_list[0].rstrip('\0')
         # print(temp_list[0])
         temp_list[1] = self.message[1]
         return tuple(temp_list)
         
     def get_coordinates(self):
         numbers = []
+        pattern = r'\d+'
         for word in self.message[0].split():
-            if word.isdigit():
-                    numbers.append(int(word))
+            matches = re.findall(pattern, word)
+            # if word.isdigit():
+            if matches:
+                print(word)    
+                numbers.append(int(float(word)))
         return numbers
     
     def get_message_text(self): return self.message[0]

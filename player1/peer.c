@@ -181,11 +181,11 @@ void receive_from_peer(int server_fd) {
                 else
                 {
                     valread = recv(i, buffer, sizeof(buffer), 0);
-                    printf("\n%s\n", buffer);
+                    printf("\nlen: %d, buff: %s\n", strlen(buffer), buffer);
                     // char buffer__[1024];
                     // printf("\nenter the coor: ");
                     // scanf("%s", buffer__);
-                    // send_msg_to_python_process(buffer__);
+                    send_msg_to_python_process(buffer);
                     FD_CLR(i, &current_sockets);
                 }
             }
@@ -230,7 +230,7 @@ char *read_msg_from_python_process() {
 
     strncpy(buffer, msg.message_body, sizeof(msg.message_body));
     remove_enter_in_buffer(buffer);
-    printf("\nlen: %d, msg: %s\n",strlen(buffer), buffer);
+    printf("\nlen: %d, msg from python: %s\n",strlen(buffer), buffer);
 
     return buffer;
 }
